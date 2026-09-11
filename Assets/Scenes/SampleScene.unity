@@ -15516,6 +15516,9 @@ GameObject:
   - component: {fileID: 920557054}
   - component: {fileID: 920557057}
   - component: {fileID: 920557058}
+  - component: {fileID: 920557061}
+  - component: {fileID: 920557060}
+  - component: {fileID: 920557059}
   m_Layer: 0
   m_Name: Snake
   m_TagString: Untagged
@@ -15557,7 +15560,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.014425874}
+  m_Offset: {x: 0, y: 0.029304773}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -15567,7 +15570,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.7937101, y: 0.97114825}
+  m_Size: {x: 0.52459824, y: 0.5943913}
   m_EdgeRadius: 0
 --- !u!212 &920557055
 SpriteRenderer:
@@ -15638,7 +15641,7 @@ Transform:
   m_GameObject: {fileID: 920557053}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.2925, y: 1.14559, z: 0}
+  m_LocalPosition: {x: 3.81, y: 1.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15680,9 +15683,49 @@ MonoBehaviour:
   m_GameObject: {fileID: 920557053}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70253ab8e14a4404e8ecb5b0674bf0bc, type: 3}
+  m_Script: {fileID: 11500000, guid: f2253df6298b2f04fb81aa66c47c8ee8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Snake
+  m_EditorClassIdentifier: Assembly-CSharp::SnakeInput
+--- !u!114 &920557059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920557053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b8f0e7f8cf267469ad7a024bfab3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SnakeCollision
+--- !u!114 &920557060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920557053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b5f29966cc50d84bb29b79afdeafdd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SnakeVisualState
+  straightBodySprite: {fileID: -330042059020078550, guid: c225a0c4e702f4741966ebd76d9b4117, type: 3}
+  cornerBodySprite: {fileID: -6406233564843400260, guid: c225a0c4e702f4741966ebd76d9b4117, type: 3}
+  tailSprite: {fileID: -4104235162083877054, guid: c225a0c4e702f4741966ebd76d9b4117, type: 3}
+--- !u!114 &920557061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920557053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e40434107444f24192323383b861ef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SnakeMovement
+  stepTime: 0.12
   bodyPrefab: {fileID: 3940199941427023932, guid: 4ade48b9420c71f40b65946e7e394bca, type: 3}
 --- !u!1 &1026137924
 GameObject:
@@ -15695,8 +15738,9 @@ GameObject:
   - component: {fileID: 1026137926}
   - component: {fileID: 1026137925}
   - component: {fileID: 1026137927}
+  - component: {fileID: 1026137929}
   m_Layer: 0
-  m_Name: food
+  m_Name: Apple
   m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15771,7 +15815,7 @@ Transform:
   m_GameObject: {fileID: 1026137924}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.542, y: 1.0665, z: 0}
+  m_LocalPosition: {x: -6.76, y: 0.94, z: 0}
   m_LocalScale: {x: 0.5561, y: 0.5131, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15823,6 +15867,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1026137929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026137924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c966448ae3adc44ada693d0291bb3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AppleItem
+  gridMin: {x: -2, y: -5}
+  gridMax: {x: 2, y: 5}
 --- !u!1 &1034326455
 GameObject:
   m_ObjectHideFlags: 0
@@ -15899,7 +15957,7 @@ Transform:
   m_GameObject: {fileID: 2085545236}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.15, y: -0.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
