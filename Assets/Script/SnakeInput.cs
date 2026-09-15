@@ -35,12 +35,6 @@ public class SnakeInput : MonoBehaviour
         {
             CurrentInputDirection = input.y > 0 ? Vector2.up : Vector2.down;
         }
-
-
-        if(input != Vector2.zero)
-        {
-            CurrentInputDirection = input;
-        }
     }
     
 }

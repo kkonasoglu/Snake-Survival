@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,6 +6,7 @@ using Unity.VisualScripting;
 [RequireComponent(typeof(SnakeInput))]
 public class SnakeMovement : MonoBehaviour
 {
+    public static event Action OnSnakeReset;
     [SerializeField] private float stepTime = 0.12f;
     [SerializeField] private Transform bodyPrefab;
 
@@ -63,7 +65,6 @@ public class SnakeMovement : MonoBehaviour
             Destroy(lastSegment.gameObject);
         }
     }
-
     public void ResetState()
     {
         for (int i = 1; i < segments.Count; i++)
@@ -74,16 +75,16 @@ public class SnakeMovement : MonoBehaviour
             }
         }
         segments.Clear();
-
         segments.Add(transform);
         transform.position = Vector3.zero;
         currentDirection = Vector2.right;
-
-        for (int i = 1; i < 2; i++)
+        snakeInput.ResetDirection();
+        for (int i = 1; i <= 2; i++)
         {
             Transform segment = Instantiate(bodyPrefab);
-            segment.position = new Vector3(-i,0,0);
+            segment.position = new Vector3(-i, 0, 0);
             segments.Add(segment);
         }
+        OnSnakeReset?.Invoke();
     }
 }
