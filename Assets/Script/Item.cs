@@ -27,8 +27,21 @@ public abstract class Item : MonoBehaviour
 
     public virtual void Respawn()
     {
-        int x = Random.Range(gridMin.x, gridMax.x + 1);
-        int y = Random.Range(gridMin.y, gridMax.y + 1);
-        transform.position = new Vector3(x, y, 0f);
+        int MaxAttempts = 100;
+        int attempt = 0;
+        int x, y;
+        do
+        {
+            x = Random.Range(gridMin.x, gridMax.x + 1);
+            y = Random.Range(gridMin.y, gridMax.y + 1);
+            attempt++;
+
+            if(SnakeMovement.Instance == null || !SnakeMovement.Instance.IsOccupying(x, y))
+            {
+                break;
+            }
+        }
+        while(attempt < MaxAttempts);
+        transform.position = new Vector3(x,y,0);
     }
 }

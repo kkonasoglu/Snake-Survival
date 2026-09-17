@@ -6,6 +6,8 @@ using Unity.VisualScripting;
 [RequireComponent(typeof(SnakeInput))]
 public class SnakeMovement : MonoBehaviour
 {
+    public static SnakeMovement Instance {get; private set;}
+
     public static event Action OnSnakeReset;
     [SerializeField] private float stepTime = 0.12f;
     [SerializeField] private Transform bodyPrefab;
@@ -19,6 +21,7 @@ public class SnakeMovement : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         snakeInput = GetComponent<SnakeInput>();
     }
 
@@ -86,5 +89,18 @@ public class SnakeMovement : MonoBehaviour
             segments.Add(segment);
         }
         OnSnakeReset?.Invoke();
+    }
+
+    public bool IsOccupying(int x , int y )
+    {
+        foreach(Transform segment in segments)
+        {
+            if(segment == null) continue;
+            if(Mathf.RoundToInt(segment.position.x)== x && Mathf.RoundToInt(segment.position.y) == y)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
