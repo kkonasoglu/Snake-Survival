@@ -18,12 +18,20 @@ public abstract class Item : MonoBehaviour
         Respawn();
     }
 
+    public virtual void Collect(SnakeMovement snake)
+    {
+        if(PhaseManager.Instance != null)
+        {
+            PhaseManager.Instance.RegisterItemCollected(this);
+        }
+    }
+
     protected virtual void OnDisable()
     {
         SnakeMovement.OnSnakeReset -= Respawn;
     }
 
-    public abstract void Collect(SnakeMovement snake);
+   
 
     public virtual void Respawn()
     {

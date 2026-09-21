@@ -15339,9 +15339,9 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.025186567
+    x: 0
     y: 0
-    width: 0.94921875
+    width: 1
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -15725,7 +15725,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e40434107444f24192323383b861ef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SnakeMovement
-  stepTime: 0.12
+  initialStepTime: 0.14
+  minStepTime: 0.05
+  speedUpFactor: 0.003
   bodyPrefab: {fileID: 3940199941427023932, guid: 4ade48b9420c71f40b65946e7e394bca, type: 3}
 --- !u!1 &1026137924
 GameObject:
@@ -15925,6 +15927,51 @@ Transform:
   m_Children:
   - {fileID: 2085545237}
   - {fileID: 126565108}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1322599755
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1322599757}
+  - component: {fileID: 1322599756}
+  m_Layer: 0
+  m_Name: PhaseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1322599756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322599755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a7796ba8aa0dd4daa57561b93a0a95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhaseManager
+  pahse1Target: 10
+--- !u!4 &1322599757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322599755}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.67895, y: 0.70359, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2085545236
@@ -17937,3 +17984,4 @@ SceneRoots:
   - {fileID: 920557056}
   - {fileID: 1026137926}
   - {fileID: 1034326457}
+  - {fileID: 1322599757}

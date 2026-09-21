@@ -1,21 +1,26 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 [RequireComponent(typeof(SnakeInput))]
 public class SnakeMovement : MonoBehaviour
 {
-    public static SnakeMovement Instance {get; private set;}
-
+    public static SnakeMovement Instance { get; private set; }
     public static event Action OnSnakeReset;
-    [SerializeField] private float stepTime = 0.12f;
+
+    [Header("Speed Settings")]
+    [SerializeField] private float initialStepTime = 0.14f;
+    [SerializeField] private float minStepTime = 0.05f;
+    [SerializeField] private float speedUpFactor = 0.003f;
+
+    [Header("Prefabs")]
     [SerializeField] private Transform bodyPrefab;
 
+    private float currentStepTime;
+    private float stepTimer;
     private SnakeInput snakeInput;
     private Vector2 currentDirection = Vector2.right;
     private readonly List<Transform> segments = new List<Transform>();
-
     public IReadOnlyList<Transform> Segments => segments;
     public Vector2 CurrentDirection => currentDirection;
 
@@ -28,8 +33,16 @@ public class SnakeMovement : MonoBehaviour
     private void Start()
     {
         ResetState();
-        InvokeRepeating(nameof(Step), stepTime, stepTime);
+    }
 
+    public void Update()
+    {
+        stepTimer += Time.deltaTime;
+        if (stepTimer >= currentStepTime)
+        {
+            stepTimer = 0f;
+            Step();
+        }
     }
 
     public void Step()
@@ -68,6 +81,11 @@ public class SnakeMovement : MonoBehaviour
             Destroy(lastSegment.gameObject);
         }
     }
+
+    public void Accelerate()
+    {
+        currentStepTime = Mathf.Max(minStepTime, currentStepTime - speedUpFactor);
+    }
     public void ResetState()
     {
         for (int i = 1; i < segments.Count; i++)
@@ -81,7 +99,11 @@ public class SnakeMovement : MonoBehaviour
         segments.Add(transform);
         transform.position = Vector3.zero;
         currentDirection = Vector2.right;
-        snakeInput.ResetDirection();
+        snakeInput.ResetDirection(); // <-- Bunu geri ekle
+        currentStepTime = initialStepTime;
+        stepTimer = 0f;
+
+
         for (int i = 1; i <= 2; i++)
         {
             Transform segment = Instantiate(bodyPrefab);
@@ -91,12 +113,12 @@ public class SnakeMovement : MonoBehaviour
         OnSnakeReset?.Invoke();
     }
 
-    public bool IsOccupying(int x , int y )
+    public bool IsOccupying(int x, int y)
     {
-        foreach(Transform segment in segments)
+        foreach (Transform segment in segments)
         {
-            if(segment == null) continue;
-            if(Mathf.RoundToInt(segment.position.x)== x && Mathf.RoundToInt(segment.position.y) == y)
+            if (segment == null) continue;
+            if (Mathf.RoundToInt(segment.position.x) == x && Mathf.RoundToInt(segment.position.y) == y)
             {
                 return true;
             }
