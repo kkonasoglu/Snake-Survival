@@ -52,4 +52,11 @@ public abstract class Item : MonoBehaviour
         while(attempt < MaxAttempts);
         transform.position = new Vector3(x,y,0);
     }
+
+
+    public void SetBounds(Vector2Int min,Vector2Int max)
+    {
+        gridMin = min;
+        gridMax = max;
+    }
 }
