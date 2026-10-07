@@ -7,7 +7,7 @@ public class PhaseManager : MonoBehaviour
     public static event Action OnPhase2Started;
 
     [Header("Phase goal")]
-    [SerializeField] private int pahse1Target = 20;
+    [SerializeField] private int phase1Target = 20;
 
     private int collectedApples = 0;
     private int currentPhase =1;
@@ -41,9 +41,9 @@ public class PhaseManager : MonoBehaviour
         if(currentPhase == 1)
         {
             collectedApples++;
-            Debug.Log($"[PhaseManager] elma toplandı : {CollectedApples} / {pahse1Target}");
+            Debug.Log($"[PhaseManager] elma toplandı : {CollectedApples} / {phase1Target}");
 
-            if(collectedApples >= pahse1Target)
+            if(collectedApples >= phase1Target)
             {
                 StartPhase2();
             }
@@ -64,4 +64,11 @@ public class PhaseManager : MonoBehaviour
         Debug.Log("[PhaseManager] Yılan öldü, faz ilerlemesi sıfırlandı.");
     }
 
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 }

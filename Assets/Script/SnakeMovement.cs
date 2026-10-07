@@ -99,7 +99,7 @@ public class SnakeMovement : MonoBehaviour
         segments.Add(transform);
         transform.position = Vector3.zero;
         currentDirection = Vector2.right;
-        snakeInput.ResetDirection(); // <-- Bunu geri ekle
+        snakeInput.ResetDirection();
         currentStepTime = initialStepTime;
         stepTimer = 0f;
 
@@ -124,5 +124,13 @@ public class SnakeMovement : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }

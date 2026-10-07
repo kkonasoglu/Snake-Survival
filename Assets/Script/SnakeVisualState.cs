@@ -4,12 +4,28 @@ using System.Collections.Generic;
 [RequireComponent(typeof(SnakeMovement))]
 public class SnakeVisualState : MonoBehaviour
 {
+    private readonly List<SpriteRenderer> segmentRenderers = new List<SpriteRenderer>();
     [Header("Sprites")]
     [SerializeField] private Sprite straightBodySprite;
     [SerializeField] private Sprite cornerBodySprite;
     [SerializeField] private Sprite tailSprite;
 
     private SnakeMovement snakeMovement;
+
+    private void OnEnable()
+    {
+        SnakeMovement.OnSnakeReset += ClearRenderersCache;
+    }
+
+    private void OnDisable()
+    {
+        SnakeMovement.OnSnakeReset -= ClearRenderersCache;
+    }
+
+    private void ClearRenderersCache()
+    {
+        segmentRenderers.Clear();
+    }
 
     private void Awake()
     {
@@ -37,9 +53,19 @@ public class SnakeVisualState : MonoBehaviour
     private void UpdateBodySprites()
     {
         IReadOnlyList<Transform> segments = snakeMovement.Segments;
+
+        while (segmentRenderers.Count < segments.Count)
+        {
+            segmentRenderers.Add(segments[segmentRenderers.Count].GetComponent<SpriteRenderer>());
+        }
+        while (segmentRenderers.Count > segments.Count)
+        {
+            segmentRenderers.RemoveAt(segmentRenderers.Count - 1);
+        }
+
         for(int i = 1; i< segments.Count; i++)
         {
-            SpriteRenderer sr = segments[i].GetComponent<SpriteRenderer>();
+            SpriteRenderer sr = segmentRenderers[i];
             if(sr == null) continue;
             if(i == segments.Count - 1)
             {
