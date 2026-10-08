@@ -5,6 +5,8 @@ using System.Collections.Generic;
 [RequireComponent(typeof(SnakeInput))]
 public class SnakeMovement : MonoBehaviour
 {
+    private readonly Queue<Vector2> inputQueue = new Queue<Vector2>();
+    private const int MaxQueueSize = 2;
     public static SnakeMovement Instance { get; private set; }
     public static event Action OnSnakeReset;
 
@@ -40,18 +42,19 @@ public class SnakeMovement : MonoBehaviour
         stepTimer += Time.deltaTime;
         if (stepTimer >= currentStepTime)
         {
-            stepTimer = 0f;
+            stepTimer -= currentStepTime;
             Step();
         }
     }
 
     public void Step()
     {
-        Vector2 targetDir = snakeInput.CurrentInputDirection;
-        if (targetDir != -currentDirection)
+
+        if(inputQueue.Count > 0)
         {
-            currentDirection = targetDir;
+            currentDirection = inputQueue.Dequeue();
         }
+        
 
         for (int i = segments.Count - 1; i > 0; i--)
         {
@@ -94,7 +97,9 @@ public class SnakeMovement : MonoBehaviour
             {
                 Destroy(segments[i].gameObject);
             }
+            
         }
+        inputQueue.Clear();
         segments.Clear();
         segments.Add(transform);
         transform.position = Vector3.zero;
@@ -133,4 +138,118 @@ public class SnakeMovement : MonoBehaviour
             Instance = null;
         }
     }
+
+    public void AddDirectionInput(Vector2 newDir)
+    {
+        if (inputQueue.Count >= MaxQueueSize) return;
+
+        Vector2 lastDir = inputQueue.Count > 0 ? inputQueue.ToArray()[inputQueue.Count - 1] : currentDirection;
+        if (newDir != -lastDir && newDir != lastDir)
+        {
+            inputQueue.Enqueue(newDir);
+        }
+    }
+
+    public void ChangeDirection(DirectionChangeMode mode = DirectionChangeMode.PerpendicularTurn)
+    {
+        if (mode == DirectionChangeMode.Reverse180)
+        {
+            ReverseSnake();
+        }
+        else
+        {
+            TurnPerpendicular();
+        }
+    }
+
+    public void TurnPerpendicular()
+    {
+        Vector2 dirA;
+        Vector2 dirB;
+
+        if (currentDirection.x != 0)
+        {
+            dirA = Vector2.up;
+            dirB = Vector2.down;
+        }
+        else
+        {
+            dirA = Vector2.left;
+            dirB = Vector2.right;
+        }
+
+        Vector3 headPos = transform.position;
+        bool canMoveA = !IsOccupying(Mathf.RoundToInt(headPos.x + dirA.x), Mathf.RoundToInt(headPos.y + dirA.y));
+        bool canMoveB = !IsOccupying(Mathf.RoundToInt(headPos.x + dirB.x), Mathf.RoundToInt(headPos.y + dirB.y));
+
+        Vector2 chosenDir;
+        if (canMoveA && !canMoveB)
+        {
+            chosenDir = dirA;
+        }
+        else if (!canMoveA && canMoveB)
+        {
+            chosenDir = dirB;
+        }
+        else
+        {
+            chosenDir = UnityEngine.Random.value > 0.5f ? dirA : dirB;
+        }
+
+        currentDirection = chosenDir;
+        inputQueue.Clear();
+    }
+
+    public void ReverseSnake()
+    {
+        if (segments.Count <= 1)
+        {
+            currentDirection = -currentDirection;
+            inputQueue.Clear();
+            return;
+        }
+
+        List<Vector3> positions = new List<Vector3>(segments.Count);
+        for (int i = 0; i < segments.Count; i++)
+        {
+            if (segments[i] != null)
+            {
+                positions.Add(segments[i].position);
+            }
+        }
+
+        positions.Reverse();
+        for (int i = 0; i < segments.Count; i++)
+        {
+            if (segments[i] != null && i < positions.Count)
+            {
+                segments[i].position = positions[i];
+            }
+        }
+
+        Vector2 diff = (Vector2)(segments[0].position - segments[1].position);
+        Vector2 newDir = Vector2.zero;
+        if (Mathf.Abs(diff.x) > Mathf.Abs(diff.y))
+        {
+            newDir = diff.x > 0 ? Vector2.right : Vector2.left;
+        }
+        else if (Mathf.Abs(diff.y) > 0)
+        {
+            newDir = diff.y > 0 ? Vector2.up : Vector2.down;
+        }
+        else
+        {
+            newDir = -currentDirection;
+        }
+
+        currentDirection = newDir;
+        inputQueue.Clear();
+        Physics2D.SyncTransforms();
+    }
+}
+
+public enum DirectionChangeMode
+{
+    PerpendicularTurn,
+    Reverse180
 }

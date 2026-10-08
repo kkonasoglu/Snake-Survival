@@ -22,6 +22,11 @@ public abstract class Item : MonoBehaviour
     {
         SnakeMovement.OnSnakeReset += HandleReset;
         PhaseManager.OnPhase2Started += HandlePhase2;
+
+        if (PhaseManager.Instance != null && PhaseManager.Instance.CurrentPhase == 2)
+        {
+            HandlePhase2();
+        }
     }
 
     protected virtual void OnDisable()
