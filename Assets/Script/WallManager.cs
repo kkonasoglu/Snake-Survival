@@ -13,19 +13,21 @@ public class WallManager : MonoBehaviour
     {
         if(outWall == null)
         {
-            outWall = GameObject.Find("out border");
+            outWall = GameObject.Find("out Border");
         }
     }
 
     private void OnEnable()
     {
         PhaseManager.OnPhase2Started += HandlePhase2Started;
+        PhaseManager.OnPhase3Started += HandlePhase3Started;
         SnakeMovement.OnSnakeReset += RestoreWalls;
     }
 
     private void OnDisable()
     {
         PhaseManager.OnPhase2Started -= HandlePhase2Started;
+        PhaseManager.OnPhase3Started -= HandlePhase3Started;
         SnakeMovement.OnSnakeReset -= RestoreWalls;
     }
 
@@ -38,12 +40,28 @@ public class WallManager : MonoBehaviour
         }
     }
 
+    private void HandlePhase3Started()
+    {
+        if(outWall != null)
+        {
+            outWall.SetActive(false);
+            Debug.Log("<color = orange>[WallManager] SON DUVAR YIKILDI! sonsuz alan açıldı</color>");
+        }
+    }
+
     private void RestoreWalls()
     {
         if(innerWall != null)
         {
             innerWall.SetActive(true);
-            Debug.Log("[WallManager] duvarlar geri yüklendi");
+           
         }
+
+        if(outWall != null)
+        {
+            outWall.SetActive(true);
+            
+        }
+        Debug.Log("[WallManager] duvarlar geri yüklendi");
     }
 }
