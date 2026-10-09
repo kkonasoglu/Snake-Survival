@@ -9,6 +9,10 @@ public abstract class Item : MonoBehaviour
     [SerializeField] protected Vector2Int phase2Min = new Vector2Int(-18, -10);
     [SerializeField] protected Vector2Int phase2Max = new Vector2Int(18, 10);
 
+    [Header("Score")]
+    [SerializeField] protected int scoreValue = 1;
+    public int ScoreValue =>scoreValue;
+
     protected Vector2Int currentMin;
     protected Vector2Int currentMax;
 

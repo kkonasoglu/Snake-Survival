@@ -15275,6 +15275,7 @@ MonoBehaviour:
   phase1Max: {x: 8, y: 4}
   phase2Min: {x: -12, y: -8}
   phase2Max: {x: 15, y: 8}
+  ScoreValue: 4
 --- !u!61 &134894948
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -16062,6 +16063,7 @@ MonoBehaviour:
   phase1Max: {x: 8, y: 4}
   phase2Min: {x: -12, y: -8}
   phase2Max: {x: 15, y: 8}
+  ScoreValue: 1
 --- !u!1 &1034326455
 GameObject:
   m_ObjectHideFlags: 0

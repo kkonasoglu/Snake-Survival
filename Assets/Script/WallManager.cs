@@ -1,9 +1,21 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WallManager : MonoBehaviour
 {
     [Header("Wall to destroy in phase 2")]
     [SerializeField] private GameObject innerWall;
+
+    [Header("Wall to destroy in phase3")]
+    [SerializeField] private GameObject outWall;
+
+    private void Awake()
+    {
+        if(outWall == null)
+        {
+            outWall = GameObject.Find("out border");
+        }
+    }
 
     private void OnEnable()
     {

@@ -1,22 +1,27 @@
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
+using UnityEngine.Assemblies;
 
 public class PhaseManager : MonoBehaviour
 {
     public static PhaseManager Instance { get; private set; }
     public static event Action OnPhase2Started;
+    public static event Action OnPhase3Started;
 
-    [Header("Phase goal")]
+    [Header("Phase goal (Score)")]
     [SerializeField] private int phase1Target = 20;
+    [SerializeField] private int phase3Target = 50;
 
     [Header("Phase 2 Items")]
     [SerializeField] private GameObject bananaObject;
 
-    private int collectedApples = 0;
-    private int currentPhase = 1;
+    public int currentScore = 0;
+    public int currentPhase = 1;
 
-    public int CollectedApples => collectedApples;
+    public int CurrentScore => currentScore;
     public int CurrentPhase => currentPhase;
+    public int CollectedApples =>currentScore; //it is for if have a old references
 
     public void Awake()
     {
@@ -60,15 +65,18 @@ public class PhaseManager : MonoBehaviour
 
     public void RegisterItemCollected(Item item)
     {
-        if (currentPhase == 1)
-        {
-            collectedApples++;
-            Debug.Log($"[PhaseManager] elma toplandı : {CollectedApples} / {phase1Target}");
+        int points = item != null ? item.ScoreValue : 1;
+        currentScore += points;
+        Debug.Log($"<color = cyan>[PhaseManager] + [points] Puan! Toplam Skor = {currentScore}</color>");
 
-            if (collectedApples >= phase1Target)
-            {
-                StartPhase2();
-            }
+        if(currentPhase == 1&& currentScore >= phase1Target)
+        {
+            StartPhase2();
+        }
+
+        else if(currentPhase == 2 && currentScore >= phase3Target)
+        {
+            StartPhase3();
         }
     }
 
@@ -88,9 +96,16 @@ public class PhaseManager : MonoBehaviour
         }
     }
 
+    private void StartPhase3()
+    {
+        currentPhase = 3;
+        Debug.Log("<color=yellow><b>[PhaseManager] TEBRİKLER! FAZ 3 BAŞLADI (50 Puan)! Sonsuz Mod devrede...</b></color>");
+        OnPhase3Started?.Invoke();
+    }
+
     private void ResetProgress()
     {
-        collectedApples = 0;
+        currentScore = 0;
         currentPhase = 1;
         Debug.Log("[PhaseManager] Yılan öldü, faz ilerlemesi sıfırlandı.");
 
