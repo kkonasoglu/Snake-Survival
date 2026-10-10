@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(SnakeInput))]
 public class SnakeMovement : MonoBehaviour
@@ -18,6 +19,11 @@ public class SnakeMovement : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private Transform bodyPrefab;
 
+    [Header("Infinite Mode(Phase 3)")]
+    [SerializeField] private Vector2Int infiniteMin = new Vector2Int(-14, -9);
+    [SerializeField] private Vector2Int infiniteMax = new Vector2Int(16, 9);
+    private bool isInfiniteMode = false;
+
     private float currentStepTime;
     private float stepTimer;
     private SnakeInput snakeInput;
@@ -25,6 +31,22 @@ public class SnakeMovement : MonoBehaviour
     private readonly List<Transform> segments = new List<Transform>();
     public IReadOnlyList<Transform> Segments => segments;
     public Vector2 CurrentDirection => currentDirection;
+
+    private void OnEnable()
+    {
+        PhaseManager.OnPhase3Started += EnableInfiniteMode;
+    }
+
+    private void OnDisable()
+    {
+        PhaseManager.OnPhase3Started -= EnableInfiniteMode;
+    }
+
+    private void EnableInfiniteMode()
+    {
+        isInfiniteMode = true;
+        Debug.Log("<color=magenta>[SnakeMovement] SONSUZ MOD AKTİF! Kenarlardan geçiş açıldı.</color>");
+    }
 
     private void Awake()
     {
@@ -50,22 +72,28 @@ public class SnakeMovement : MonoBehaviour
     public void Step()
     {
 
-        if(inputQueue.Count > 0)
+        if (inputQueue.Count > 0)
         {
             currentDirection = inputQueue.Dequeue();
         }
-        
+
 
         for (int i = segments.Count - 1; i > 0; i--)
         {
             segments[i].position = segments[i - 1].position;
         }
 
-        transform.position = new Vector3(
-            Mathf.Round(transform.position.x) + currentDirection.x,
-            Mathf.Round(transform.position.y) + currentDirection.y,
-            0f
-        );
+        float nextX = Mathf.Round(transform.position.x) + currentDirection.x;
+        float nextY = Mathf.Round(transform.position.y) + currentDirection.y;
+        // YENİ: Sonsuz mod açıksa kenardan çıkan yılan karşı tarafa ışınlanır
+        if (isInfiniteMode)
+        {
+            if (nextX > infiniteMax.x) nextX = infiniteMin.x;
+            else if (nextX < infiniteMin.x) nextX = infiniteMax.x;
+            if (nextY > infiniteMax.y) nextY = infiniteMin.y;
+            else if (nextY < infiniteMin.y) nextY = infiniteMax.y;
+        }
+        transform.position = new Vector3(nextX, nextY, 0f);
     }
 
     public void Grow()
@@ -97,9 +125,10 @@ public class SnakeMovement : MonoBehaviour
             {
                 Destroy(segments[i].gameObject);
             }
-            
+
         }
         inputQueue.Clear();
+        isInfiniteMode = false;
         segments.Clear();
         segments.Add(transform);
         transform.position = Vector3.zero;
