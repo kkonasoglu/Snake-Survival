@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using Unity.VisualScripting;
+using UnityEngine.Rendering.RenderGraphModule;
 
 [RequireComponent(typeof(SnakeInput))]
 public class SnakeMovement : MonoBehaviour
@@ -22,6 +24,18 @@ public class SnakeMovement : MonoBehaviour
     [Header("Infinite Mode(Phase 3)")]
     [SerializeField] private Vector2Int infiniteMin = new Vector2Int(-14, -9);
     [SerializeField] private Vector2Int infiniteMax = new Vector2Int(16, 9);
+
+
+    [Header("Reverse Feedback (Banana Delay & Pop)")]
+    [SerializeField] private float reversePauseDuration = 0.35f;
+    [SerializeField] private float popScaleMultiplier = 1.35f;
+    [SerializeField] private Color popColor = Color.yellow;
+    private bool isPaused = false;
+    private SpriteRenderer headRenderer ; 
+    private Vector3 baseHeadScale;
+    private Color baseHeadColor = Color.white;
+
+
     private bool isInfiniteMode = false;
 
     private float currentStepTime;
@@ -52,6 +66,11 @@ public class SnakeMovement : MonoBehaviour
     {
         Instance = this;
         snakeInput = GetComponent<SnakeInput>();
+
+        headRenderer = GetComponent<SpriteRenderer>();
+        baseHeadScale =  transform.localScale;
+        if(baseHeadScale == Vector3.zero) baseHeadScale = Vector3.one;
+        if(headRenderer !=null) baseHeadColor = headRenderer.color;
     }
 
     private void Start()
@@ -61,6 +80,8 @@ public class SnakeMovement : MonoBehaviour
 
     public void Update()
     {
+        if(isPaused) return;
+
         stepTimer += Time.deltaTime;
         if (stepTimer >= currentStepTime)
         {
@@ -119,6 +140,10 @@ public class SnakeMovement : MonoBehaviour
     }
     public void ResetState()
     {
+        StopAllCoroutines();
+        isPaused = false;
+        transform.localScale = baseHeadScale;
+        if(headRenderer != null )  headRenderer.color = baseHeadColor; 
         for (int i = 1; i < segments.Count; i++)
         {
             if (segments[i] != null)
@@ -274,6 +299,33 @@ public class SnakeMovement : MonoBehaviour
         currentDirection = newDir;
         inputQueue.Clear();
         Physics2D.SyncTransforms();
+
+        StartCoroutine(ReverseFeedBackRoutine(reversePauseDuration));
+    }
+
+    private IEnumerator ReverseFeedBackRoutine(float duration)
+    {
+        isPaused = true;
+        Vector3 poppedScale = baseHeadScale * popScaleMultiplier;
+        float elapsed = 0f;
+        while(elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            
+            transform.localScale = Vector3.Lerp(poppedScale,baseHeadScale,t);
+
+            if(headRenderer != null)
+            {
+                headRenderer.color = Color.Lerp(popColor,baseHeadColor,t);
+            }
+
+            yield return null ; 
+        }
+
+        transform.localScale = baseHeadScale;
+        if(headRenderer != null) headRenderer.color = baseHeadColor;
+        isPaused = false;
     }
 }
 

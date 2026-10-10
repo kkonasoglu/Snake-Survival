@@ -15909,6 +15909,9 @@ MonoBehaviour:
   bodyPrefab: {fileID: 3940199941427023932, guid: 4ade48b9420c71f40b65946e7e394bca, type: 3}
   infiniteMin: {x: -14, y: -9}
   infiniteMax: {x: 16, y: 9}
+  reversePauseDuration: 0.35
+  popScaleMultiplier: 1.35
+  popColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &1026137924
 GameObject:
   m_ObjectHideFlags: 0
@@ -16188,7 +16191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a7796ba8aa0dd4daa57561b93a0a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhaseManager
-  phase1Target: 20
+  phase1Target: 10
   phase3Target: 40
   bananaObject: {fileID: 134894946}
   bombObject: {fileID: 1654117665}
