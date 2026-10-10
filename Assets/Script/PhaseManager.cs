@@ -16,6 +16,9 @@ public class PhaseManager : MonoBehaviour
     [Header("Phase 2 Items")]
     [SerializeField] private GameObject bananaObject;
 
+    [Header("Phase 3 Items")]
+    [SerializeField] private GameObject bombObject;
+
     public int currentScore = 0;
     public int currentPhase = 1;
 
@@ -43,11 +46,25 @@ public class PhaseManager : MonoBehaviour
                 bananaObject = banana.gameObject;
             }
         }
+
+        if(bombObject == null)
+        {
+            BombItem bomb = FindAnyObjectByType<BombItem>(FindObjectsInactive.Include);
+            if(bananaObject != null)
+            {
+                bombObject = bomb.gameObject;
+            }
+        }
     }
 
     private void Start()
     {
         if (bananaObject != null)
+        {
+            bananaObject.SetActive(false);
+        }
+
+        if(bombObject != null)
         {
             bananaObject.SetActive(false);
         }
@@ -101,6 +118,14 @@ public class PhaseManager : MonoBehaviour
         currentPhase = 3;
         Debug.Log("<color=yellow><b>[PhaseManager] TEBRİKLER! FAZ 3 BAŞLADI (50 Puan)! Sonsuz Mod devrede...</b></color>");
         OnPhase3Started?.Invoke();
+        if(bombObject != null)
+        {
+            bombObject.SetActive(true);
+            if(bombObject.TryGetComponent<Item>(out var item))
+            {
+                item.Respawn();
+            }
+        }
     }
 
     private void ResetProgress()
@@ -112,6 +137,11 @@ public class PhaseManager : MonoBehaviour
         if (bananaObject != null)
         {
             bananaObject.SetActive(false);
+        }
+
+        if(bombObject != null)
+        {
+            bombObject.SetActive(false);
         }
     }
 
