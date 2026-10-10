@@ -63,30 +63,53 @@ public class SnakeVisualState : MonoBehaviour
             segmentRenderers.RemoveAt(segmentRenderers.Count - 1);
         }
 
-        for(int i = 1; i< segments.Count; i++)
+                for(int i = 1; i < segments.Count; i++)
         {
             SpriteRenderer sr = segmentRenderers[i];
             if(sr == null) continue;
+
             if(i == segments.Count - 1)
             {
                 sr.sprite = tailSprite;
                 Vector2 toBack = (Vector2)(segments[i].position - segments[i-1].position);
-                sr.transform.rotation = Quaternion.Euler(0,0,GetDirectionAngle(toBack));
+                if (toBack == Vector2.zero)
+                {
+                    for (int p = i - 1; p >= 0; p--)
+                    {
+                        Vector2 diff = (Vector2)(segments[i].position - segments[p].position);
+                        if (diff != Vector2.zero)
+                        {
+                            toBack = diff;
+                            break;
+                        }
+                    }
+                }
+
+                if (toBack != Vector2.zero)
+                {
+                    sr.transform.rotation = Quaternion.Euler(0, 0, GetDirectionAngle(toBack));
+                }
             }
             else
             {
                 Vector2 toPrev = (Vector2)(segments[i-1].position - segments[i].position);
                 Vector2 toNext = (Vector2)(segments[i+1].position - segments[i].position);
 
-                if(toPrev.x == toNext.x ||toPrev.y == toNext.y)
+                // YENİ: Eğer bir sonraki boğum üst üste biniyorsa toNext'i toPrev'in tersi yap ki gövde bozulmasın
+                if (toNext == Vector2.zero)
+                {
+                    toNext = -toPrev;
+                }
+
+                if(toPrev.x == toNext.x || toPrev.y == toNext.y)
                 {
                     sr.sprite = straightBodySprite;
-                    sr.transform.rotation = Quaternion.Euler(0,0, toPrev.x != 0 ? 90f : 0f);
+                    sr.transform.rotation = Quaternion.Euler(0, 0, toPrev.x != 0 ? 90f : 0f);
                 }
                 else
                 {
                     sr.sprite  = cornerBodySprite;
-                    sr.transform.rotation = Quaternion.Euler(0,0, GetCornerAngle(toPrev, toNext));
+                    sr.transform.rotation = Quaternion.Euler(0, 0, GetCornerAngle(toPrev, toNext));
                 }
             }
         }

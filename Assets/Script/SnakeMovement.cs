@@ -37,6 +37,7 @@ public class SnakeMovement : MonoBehaviour
 
 
     private bool isInfiniteMode = false;
+    private int pendingGrowth = 0;
 
     private float currentStepTime;
     private float stepTimer;
@@ -99,6 +100,10 @@ public class SnakeMovement : MonoBehaviour
         }
 
 
+        // Kuyruğun hareket etmeden önceki eski pozisyon ve açısını kaydet
+        Vector3 oldTailPos = segments[segments.Count - 1].position;
+        Quaternion oldTailRot = segments[segments.Count - 1].rotation;
+
         for (int i = segments.Count - 1; i > 0; i--)
         {
             segments[i].position = segments[i - 1].position;
@@ -115,13 +120,21 @@ public class SnakeMovement : MonoBehaviour
             else if (nextY < infiniteMin.y) nextY = infiniteMax.y;
         }
         transform.position = new Vector3(nextX, nextY, 0f);
+
+        // Büyüme bekliyorsa, kuyruğun az önce terk ettiği boş yere yeni parçayı ekle
+        if (pendingGrowth > 0)
+        {
+            pendingGrowth--;
+            Transform newSegment = Instantiate(bodyPrefab);
+            newSegment.position = oldTailPos;
+            newSegment.rotation = oldTailRot;
+            segments.Add(newSegment);
+        }
     }
 
     public void Grow()
     {
-        Transform segment = Instantiate(bodyPrefab);
-        segment.position = segments[segments.Count - 1].position;
-        segments.Add(segment);
+        pendingGrowth++;
     }
 
     public void Shrink()
@@ -154,6 +167,7 @@ public class SnakeMovement : MonoBehaviour
         }
         inputQueue.Clear();
         isInfiniteMode = false;
+        pendingGrowth = 0;
         segments.Clear();
         segments.Add(transform);
         transform.position = Vector3.zero;
