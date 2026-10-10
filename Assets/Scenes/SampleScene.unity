@@ -15903,7 +15903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e40434107444f24192323383b861ef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SnakeMovement
-  initialStepTime: 0.14
+  initialStepTime: 0.15
   minStepTime: 0.05
   speedUpFactor: 0.003
   bodyPrefab: {fileID: 3940199941427023932, guid: 4ade48b9420c71f40b65946e7e394bca, type: 3}
@@ -16188,8 +16188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a7796ba8aa0dd4daa57561b93a0a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhaseManager
-  phase1Target: 10
-  phase3Target: 20
+  phase1Target: 20
+  phase3Target: 40
   bananaObject: {fileID: 134894946}
   bombObject: {fileID: 1654117665}
   currentScore: 0
@@ -17660,7 +17660,7 @@ Transform:
   m_GameObject: {fileID: 1654117665}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.94, y: 0.24, z: 0}
+  m_LocalPosition: {x: -19.3, y: 0.24, z: 0}
   m_LocalScale: {x: 0.5561, y: 0.5131, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17683,6 +17683,12 @@ MonoBehaviour:
   phase2Min: {x: -18, y: -10}
   phase2Max: {x: 18, y: 10}
   scoreValue: 1
+  fuseTime: 5
+  respawnDelay: 1.5
+  pulseSpeed: 2
+  pulseAmount: 0.2
+  flashSpeed: 8
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &2085545236
 GameObject:
   m_ObjectHideFlags: 0
