@@ -21,6 +21,14 @@ public class SnakeMovement : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private Transform bodyPrefab;
 
+    [Header("Boundary Limits (Wall Collision)")]
+    [SerializeField] private Vector2Int phase1Min = new Vector2Int(-9, -5);
+    [SerializeField] private Vector2Int phase1Max = new Vector2Int(11, 6);
+    [SerializeField] private Vector2Int phase2Min = new Vector2Int(-12, -7);
+    [SerializeField] private Vector2Int phase2Max = new Vector2Int(16, 9);
+    private Vector2Int currentMin;
+    private Vector2Int currentMax;
+
     [Header("Infinite Mode(Phase 3)")]
     [SerializeField] private Vector2Int infiniteMin = new Vector2Int(-14, -9);
     [SerializeField] private Vector2Int infiniteMax = new Vector2Int(16, 9);
@@ -56,12 +64,21 @@ public class SnakeMovement : MonoBehaviour
 
     private void OnEnable()
     {
+        PhaseManager.OnPhase2Started += HandlePhase2Started;
         PhaseManager.OnPhase3Started += EnableInfiniteMode;
     }
 
     private void OnDisable()
     {
+        PhaseManager.OnPhase2Started -= HandlePhase2Started;
         PhaseManager.OnPhase3Started -= EnableInfiniteMode;
+    }
+
+    private void HandlePhase2Started()
+    {
+        currentMin = phase2Min;
+        currentMax = phase2Max;
+        Debug.Log("<color=green>[SnakeMovement] FAZ 2 SINIRLARI AKTİF! Alan genişledi.</color>");
     }
 
     private void EnableInfiniteMode()
@@ -74,6 +91,9 @@ public class SnakeMovement : MonoBehaviour
     {
         Instance = this;
         snakeInput = GetComponent<SnakeInput>();
+
+        currentMin = phase1Min;
+        currentMax = phase1Max;
 
         headRenderer = GetComponent<SpriteRenderer>();
         baseHeadScale =  transform.localScale;
@@ -106,6 +126,26 @@ public class SnakeMovement : MonoBehaviour
             currentDirection = inputQueue.Dequeue();
         }
 
+        float nextX = Mathf.Round(transform.position.x) + currentDirection.x;
+        float nextY = Mathf.Round(transform.position.y) + currentDirection.y;
+
+        // Duvar çarpışma kontrolü (Faz 1 & 2) veya Sonsuz Mod geçişi (Faz 3)
+        if (isInfiniteMode)
+        {
+            if (nextX > infiniteMax.x) nextX = infiniteMin.x;
+            else if (nextX < infiniteMin.x) nextX = infiniteMax.x;
+            if (nextY > infiniteMax.y) nextY = infiniteMin.y;
+            else if (nextY < infiniteMin.y) nextY = infiniteMax.y;
+        }
+        else
+        {
+            if (nextX < currentMin.x || nextX > currentMax.x || nextY < currentMin.y || nextY > currentMax.y)
+            {
+                Debug.Log($"<color=red>[SnakeMovement] Duvara çarpıldı! Hedef: ({nextX}, {nextY}) | Sınırlar: X:[{currentMin.x}, {currentMax.x}] Y:[{currentMin.y}, {currentMax.y}]</color>");
+                ResetState();
+                return;
+            }
+        }
 
         // Kuyruğun hareket etmeden önceki eski pozisyon ve açısını kaydet
         Vector3 oldTailPos = segments[segments.Count - 1].position;
@@ -116,16 +156,6 @@ public class SnakeMovement : MonoBehaviour
             segments[i].position = segments[i - 1].position;
         }
 
-        float nextX = Mathf.Round(transform.position.x) + currentDirection.x;
-        float nextY = Mathf.Round(transform.position.y) + currentDirection.y;
-        // YENİ: Sonsuz mod açıksa kenardan çıkan yılan karşı tarafa ışınlanır
-        if (isInfiniteMode)
-        {
-            if (nextX > infiniteMax.x) nextX = infiniteMin.x;
-            else if (nextX < infiniteMin.x) nextX = infiniteMax.x;
-            if (nextY > infiniteMax.y) nextY = infiniteMin.y;
-            else if (nextY < infiniteMin.y) nextY = infiniteMax.y;
-        }
         transform.position = new Vector3(nextX, nextY, 0f);
 
         // Büyüme bekliyorsa, kuyruğun az önce terk ettiği boş yere yeni parçayı ekle
@@ -174,6 +204,8 @@ public class SnakeMovement : MonoBehaviour
         }
         inputQueue.Clear();
         isInfiniteMode = false;
+        currentMin = phase1Min;
+        currentMax = phase1Max;
         pendingGrowth = 0;
         segments.Clear();
         segments.Add(transform);
@@ -191,6 +223,12 @@ public class SnakeMovement : MonoBehaviour
             segments.Add(segment);
         }
         OnSnakeReset?.Invoke();
+    }
+
+    public bool IsInsideBounds(int x, int y)
+    {
+        if (isInfiniteMode) return true;
+        return x >= currentMin.x && x <= currentMax.x && y >= currentMin.y && y <= currentMax.y;
     }
 
     public bool IsOccupying(int x, int y)
@@ -254,8 +292,10 @@ public class SnakeMovement : MonoBehaviour
         }
 
         Vector3 headPos = transform.position;
-        bool canMoveA = !IsOccupying(Mathf.RoundToInt(headPos.x + dirA.x), Mathf.RoundToInt(headPos.y + dirA.y));
-        bool canMoveB = !IsOccupying(Mathf.RoundToInt(headPos.x + dirB.x), Mathf.RoundToInt(headPos.y + dirB.y));
+        bool canMoveA = IsInsideBounds(Mathf.RoundToInt(headPos.x + dirA.x), Mathf.RoundToInt(headPos.y + dirA.y)) &&
+                        !IsOccupying(Mathf.RoundToInt(headPos.x + dirA.x), Mathf.RoundToInt(headPos.y + dirA.y));
+        bool canMoveB = IsInsideBounds(Mathf.RoundToInt(headPos.x + dirB.x), Mathf.RoundToInt(headPos.y + dirB.y)) &&
+                        !IsOccupying(Mathf.RoundToInt(headPos.x + dirB.x), Mathf.RoundToInt(headPos.y + dirB.y));
 
         Vector2 chosenDir;
         if (canMoveA && !canMoveB)

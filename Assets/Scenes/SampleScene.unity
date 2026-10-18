@@ -15530,7 +15530,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.98, y: 0.5, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15738,7 +15738,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.005759448, y: 0.2745861}
+  m_Offset: {x: 0, y: 0.071922526}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -15748,7 +15748,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.50095165, y: 0.1035486}
+  m_Size: {x: 0.55, y: 0.49384502}
   m_EdgeRadius: 0
 --- !u!212 &920557055
 SpriteRenderer:
@@ -15907,6 +15907,10 @@ MonoBehaviour:
   minStepTime: 0.05
   speedUpFactor: 0.003
   bodyPrefab: {fileID: 3940199941427023932, guid: 4ade48b9420c71f40b65946e7e394bca, type: 3}
+  phase1Min: {x: -9, y: -5}
+  phase1Max: {x: 11, y: 6}
+  phase2Min: {x: -12, y: -7}
+  phase2Max: {x: 16, y: 9}
   infiniteMin: {x: -14, y: -9}
   infiniteMax: {x: 16, y: 9}
   reversePauseDuration: 0.35

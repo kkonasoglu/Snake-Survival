@@ -17,8 +17,19 @@ public class SnakeCollision : MonoBehaviour
             return;
         }
 
-        if(collision.CompareTag("Wall") || collision.CompareTag("SnakeBody"))
+        if(collision.CompareTag("Wall"))
         {
+            snakeMovement.ResetState();
+            return;
+        }
+
+        if(collision.CompareTag("SnakeBody"))
+        {
+            if (snakeMovement.Segments != null && snakeMovement.Segments.Count > 1 && collision.transform == snakeMovement.Segments[1])
+            {
+                return;
+            }
+
             snakeMovement.ResetState();
         }
     }
