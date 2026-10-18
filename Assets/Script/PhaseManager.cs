@@ -18,6 +18,8 @@ public class PhaseManager : MonoBehaviour
 
     [Header("Phase 3 Items")]
     [SerializeField] private GameObject bombObject;
+    [SerializeField] private GameObject devilFruitObject;
+
 
     public int currentScore = 0;
     public int currentPhase = 1;
@@ -50,10 +52,20 @@ public class PhaseManager : MonoBehaviour
         if(bombObject == null)
         {
             BombItem bomb = FindAnyObjectByType<BombItem>(FindObjectsInactive.Include);
-            if(bananaObject != null)
+            if(bomb != null)
             {
                 bombObject = bomb.gameObject;
             }
+        }
+
+        if(devilFruitObject == null)
+        {
+            DevilFruitItem fruit = FindAnyObjectByType<DevilFruitItem>(FindObjectsInactive.Include);
+            if(fruit != null)
+            {
+                devilFruitObject = fruit.gameObject;
+            }
+
         }
     }
 
@@ -66,7 +78,12 @@ public class PhaseManager : MonoBehaviour
 
         if(bombObject != null)
         {
-            bananaObject.SetActive(false);
+            bombObject.SetActive(false);
+        }
+
+        if(devilFruitObject != null)
+        {
+            devilFruitObject.SetActive(false);
         }
     }
 
@@ -126,6 +143,14 @@ public class PhaseManager : MonoBehaviour
                 item.Respawn();
             }
         }
+        if(devilFruitObject != null)
+        {
+            devilFruitObject.SetActive(true);
+            if(devilFruitObject.TryGetComponent<Item>(out var item))
+            {
+                item.Respawn();
+            }
+        }
     }
 
     private void ResetProgress()
@@ -142,6 +167,11 @@ public class PhaseManager : MonoBehaviour
         if(bombObject != null)
         {
             bombObject.SetActive(false);
+        }
+
+        if(devilFruitObject != null)
+        {
+            devilFruitObject.SetActive(false);
         }
     }
 

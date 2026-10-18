@@ -30,6 +30,13 @@ public class SnakeMovement : MonoBehaviour
     [SerializeField] private float reversePauseDuration = 0.35f;
     [SerializeField] private float popScaleMultiplier = 1.35f;
     [SerializeField] private Color popColor = Color.yellow;
+
+
+
+    [Header("Devil fruit (Stretch & Shrink)")]
+    [SerializeField] private float devilFruitDuration = 5f;
+    [SerializeField] private float shrinkInterval = 0.08f;
+    private Coroutine devilFruitRoutine;
     private bool isPaused = false;
     private SpriteRenderer headRenderer ; 
     private Vector3 baseHeadScale;
@@ -340,6 +347,39 @@ public class SnakeMovement : MonoBehaviour
         transform.localScale = baseHeadScale;
         if(headRenderer != null) headRenderer.color = baseHeadColor;
         isPaused = false;
+    }
+
+    public void ActivateDevilFruit()
+    {
+        if(devilFruitRoutine != null)
+        {
+            StopCoroutine(devilFruitRoutine);
+        }
+        devilFruitRoutine = StartCoroutine(DevilFruitRoutine());
+    }
+
+    private IEnumerator DevilFruitRoutine()
+    {
+        float timer = 0;
+        int extraSegments = 0;
+
+        while(timer < devilFruitDuration)
+        {
+            Grow();
+            extraSegments++;
+            yield return new WaitForSeconds(0.2f);
+            timer += 0.2f;
+        }
+        
+
+        while(extraSegments > 0 && segments.Count > 3)
+        {
+            Shrink();
+            extraSegments--;
+            yield return new WaitForSeconds(shrinkInterval);
+        }
+        devilFruitRoutine = null ;
+
     }
 }
 
