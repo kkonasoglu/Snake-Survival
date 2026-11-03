@@ -2,8 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEngine.Rendering.RenderGraphModule;
+using JetBrains.Annotations;
 
 [RequireComponent(typeof(SnakeInput))]
 public class SnakeMovement : MonoBehaviour
@@ -12,6 +11,7 @@ public class SnakeMovement : MonoBehaviour
     private const int MaxQueueSize = 2;
     public static SnakeMovement Instance { get; private set; }
     public static event Action OnSnakeReset;
+    public static event Action OnSnakeDied;
 
     [Header("Speed Settings")]
     [SerializeField] private float initialStepTime = 0.14f;
@@ -52,6 +52,8 @@ public class SnakeMovement : MonoBehaviour
 
 
     private bool isInfiniteMode = false;
+    private bool isDead = false;
+    public bool IsDead =>isDead;
     private int pendingGrowth = 0;
 
     private float currentStepTime;
@@ -108,6 +110,8 @@ public class SnakeMovement : MonoBehaviour
 
     public void Update()
     {
+        if(isPaused || isDead) return;
+
         if(isPaused) return;
 
         stepTimer += Time.deltaTime;
@@ -142,7 +146,7 @@ public class SnakeMovement : MonoBehaviour
             if (nextX < currentMin.x || nextX > currentMax.x || nextY < currentMin.y || nextY > currentMax.y)
             {
                 Debug.Log($"<color=red>[SnakeMovement] Duvara çarpıldı! Hedef: ({nextX}, {nextY}) | Sınırlar: X:[{currentMin.x}, {currentMax.x}] Y:[{currentMin.y}, {currentMax.y}]</color>");
-                ResetState();
+                Die();
                 return;
             }
         }
@@ -188,6 +192,19 @@ public class SnakeMovement : MonoBehaviour
     {
         currentStepTime = Mathf.Max(minStepTime, currentStepTime - speedUpFactor);
     }
+    public void Die()
+    {
+        if(isDead)return;
+        isDead = true;
+        StopAllCoroutines();
+        Debug.Log("<color = red>[SnakeMovement] Yılan öldü! Game over</color>");
+        OnSnakeDied?.Invoke();
+    }
+    public void RestartGame()
+    {
+        isDead = false;
+        ResetState();
+    }
     public void ResetState()
     {
         StopAllCoroutines();
@@ -207,6 +224,7 @@ public class SnakeMovement : MonoBehaviour
         currentMin = phase1Min;
         currentMax = phase1Max;
         pendingGrowth = 0;
+        isDead = false;
         segments.Clear();
         segments.Add(transform);
         transform.position = Vector3.zero;
