@@ -8,6 +8,7 @@ public class PhaseManager : MonoBehaviour
     public static PhaseManager Instance { get; private set; }
     public static event Action OnPhase2Started;
     public static event Action OnPhase3Started;
+    public static event Action<int> OnScoreChanged;
 
     [Header("Phase goal (Score)")]
     [SerializeField] private int phase1Target = 20;
@@ -101,6 +102,7 @@ public class PhaseManager : MonoBehaviour
     {
         int points = item != null ? item.ScoreValue : 1;
         currentScore += points;
+        OnScoreChanged?.Invoke(currentScore);
         Debug.Log($"<color = cyan>[PhaseManager] + [points] Puan! Toplam Skor = {currentScore}</color>");
 
         if(currentPhase == 1&& currentScore >= phase1Target)
@@ -157,6 +159,7 @@ public class PhaseManager : MonoBehaviour
     {
         currentScore = 0;
         currentPhase = 1;
+        OnScoreChanged?.Invoke(0);
         Debug.Log("[PhaseManager] Yılan öldü, faz ilerlemesi sıfırlandı.");
 
         if (bananaObject != null)
