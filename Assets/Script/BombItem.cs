@@ -107,7 +107,7 @@ public class BombItem : Item
         if(isExplode) return;
         Debug.Log("<color = red><b>[BombItem] BOOM! yılan bombaya çarptı ve öldü!</b></color>");
 
-        snake.ResetState();
+        snake.Die();
         ResetBombState();
         Respawn();
     }

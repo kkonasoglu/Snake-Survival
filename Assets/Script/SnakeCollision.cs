@@ -19,7 +19,7 @@ public class SnakeCollision : MonoBehaviour
 
         if(collision.CompareTag("Wall"))
         {
-            snakeMovement.ResetState();
+            snakeMovement.Die();
             return;
         }
 
@@ -30,7 +30,7 @@ public class SnakeCollision : MonoBehaviour
                 return;
             }
 
-            snakeMovement.ResetState();
+            snakeMovement.Die();
         }
     }
 
