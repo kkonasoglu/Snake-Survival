@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using UnityEngine.InputSystem;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
@@ -53,9 +54,9 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         
-        if (gameOverPanel != null && gameOverPanel.activeSelf)
+        if(gameOverPanel !=null && gameOverPanel.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if(Keyboard.current !=null && Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 OnRestartButtonClicked();
             }
