@@ -10,6 +10,7 @@ public class BananaItem : Item
     public override void Collect(SnakeMovement snake)
     {
         base.Collect(snake);
+        ParticleManager.Instance?.PlayEatEffect(transform.position,Color.yellow);
 
         AudioManager.Instance?.PlayBanana();
 

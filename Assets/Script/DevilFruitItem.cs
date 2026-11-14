@@ -11,6 +11,7 @@ public class DevilFruitItem : Item
     public override void Collect(SnakeMovement snake)
     {
         base.Collect(snake);
+        ParticleManager.Instance?.PlayEatEffect(transform.position,Color.purple);
         AudioManager.Instance?.PlayDevilFruit();
         snake.ActivateDevilFruit();
 
