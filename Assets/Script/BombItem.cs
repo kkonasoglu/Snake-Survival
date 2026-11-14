@@ -75,6 +75,7 @@ public class BombItem : Item
         isExplode = true;
         Debug.Log("<color = orange>[BombItem] bomba süresi doldu,patladı ve yok oldu! </color>");
         AudioManager.Instance?.PlayBomb();
+        CameraExpender.Instance?.TriggerShake(0.3f, 0.3f);
 
         if(spriteRenderer != null) spriteRenderer.enabled = false;
         if(bombCollider !=null) bombCollider.enabled = false;
