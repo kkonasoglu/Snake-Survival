@@ -6,6 +6,7 @@ public class AppleItem : Item
     {
         base.Collect(snake);
         
+        AudioManager.Instance?.PlayAppleEat();
         snake.Grow();
         snake.Accelerate();
         Respawn();

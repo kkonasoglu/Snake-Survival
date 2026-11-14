@@ -11,6 +11,7 @@ public class DevilFruitItem : Item
     public override void Collect(SnakeMovement snake)
     {
         base.Collect(snake);
+        AudioManager.Instance?.PlayDevilFruit();
         snake.ActivateDevilFruit();
 
         Respawn();

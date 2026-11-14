@@ -11,6 +11,8 @@ public class BananaItem : Item
     {
         base.Collect(snake);
 
+        AudioManager.Instance?.PlayBanana();
+
         // Kafa ile kuyruk yer değiştirir
         snake.ReverseSnake();
 

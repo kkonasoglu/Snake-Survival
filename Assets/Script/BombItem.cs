@@ -74,6 +74,7 @@ public class BombItem : Item
     {
         isExplode = true;
         Debug.Log("<color = orange>[BombItem] bomba süresi doldu,patladı ve yok oldu! </color>");
+        AudioManager.Instance?.PlayBomb();
 
         if(spriteRenderer != null) spriteRenderer.enabled = false;
         if(bombCollider !=null) bombCollider.enabled = false;
@@ -107,6 +108,7 @@ public class BombItem : Item
         if(isExplode) return;
         Debug.Log("<color = red><b>[BombItem] BOOM! yılan bombaya çarptı ve öldü!</b></color>");
 
+        AudioManager.Instance?.PlayBomb();
         snake.Die();
         ResetBombState();
         Respawn();
