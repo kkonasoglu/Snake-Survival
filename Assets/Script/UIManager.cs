@@ -20,6 +20,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI finalScoreText;
     [SerializeField] private TextMeshProUGUI bestScoreText;
     [SerializeField] private GameObject newRecordBadge; 
+
+    [Header("Pause Menüsü")]
+    [SerializeField] private GameObject pausePanel;
+    private bool isGamePaused = false;
+    public bool IsGamePaused => isGamePaused;
+
     private int highScore = 0;
     private Coroutine bannerCoroutine;
     private void Awake()
@@ -34,6 +40,7 @@ public class UIManager : MonoBehaviour
         UpdatePhaseDisplay(1);
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         if (phaseBannerPanel != null) phaseBannerPanel.SetActive(false);
+        if (pausePanel != null) pausePanel.SetActive(false);
     }
     private void OnEnable()
     {
@@ -53,13 +60,20 @@ public class UIManager : MonoBehaviour
     }
     private void Update()
     {
-        
-        if(gameOverPanel !=null && gameOverPanel.activeSelf)
+        // 1. Game Over durumunda SPACE ile yeniden başlat
+        if (gameOverPanel != null && gameOverPanel.activeSelf)
         {
-            if(Keyboard.current !=null && Keyboard.current.spaceKey.wasPressedThisFrame)
+            if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 OnRestartButtonClicked();
             }
+            return;
+        }
+
+        // 2. ESC ile Oyunu Duraklat / Devam Ettir
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            TogglePause();
         }
     }
     private void HandleScoreChanged(int newScore)
@@ -100,16 +114,56 @@ public class UIManager : MonoBehaviour
     private void HandleSnakeReset()
     {
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        ResumeGame();
         UpdatePhaseDisplay(1);
         UpdateScoreDisplay(0);
     }
     public void OnRestartButtonClicked()
     {
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        ResumeGame();
         if (SnakeMovement.Instance != null)
         {
             SnakeMovement.Instance.RestartGame();
         }
+    }
+
+    public void TogglePause()
+    {
+        if (isGamePaused) ResumeGame();
+        else PauseGame();
+    }
+
+    public void PauseGame()
+    {
+        isGamePaused = true;
+        Time.timeScale = 0f;
+        if (pausePanel != null) pausePanel.SetActive(true);
+    }
+
+    public void ResumeGame()
+    {
+        isGamePaused = false;
+        Time.timeScale = 1f;
+        if (pausePanel != null) pausePanel.SetActive(false);
+    }
+
+    public void OnRestartFromPause()
+    {
+        ResumeGame();
+        if (SnakeMovement.Instance != null)
+        {
+            SnakeMovement.Instance.RestartGame();
+        }
+    }
+
+    public void OnQuitButtonClicked()
+    {
+        Application.Quit();
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+        Debug.Log("[UIManager] Oyundan çıkıldı.");
     }
     private void UpdateScoreDisplay(int score)
     {
