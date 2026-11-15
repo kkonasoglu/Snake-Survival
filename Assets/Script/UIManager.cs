@@ -13,13 +13,13 @@ public class UIManager : MonoBehaviour
     [Header("Faz Geçiş Banner'ı")]
     [SerializeField] private GameObject phaseBannerPanel;
     [SerializeField] private TextMeshProUGUI phaseBannerText;
-    [SerializeField] private Image phaseBannerImage; 
+    [SerializeField] private Image phaseBannerImage;
     [SerializeField] private float bannerDuration = 2.5f;
     [Header("Game Over Ekranı")]
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI finalScoreText;
     [SerializeField] private TextMeshProUGUI bestScoreText;
-    [SerializeField] private GameObject newRecordBadge; 
+    [SerializeField] private GameObject newRecordBadge;
 
     [Header("Pause Menüsü")]
     [SerializeField] private GameObject pausePanel;
@@ -101,7 +101,7 @@ public class UIManager : MonoBehaviour
     {
         if (gameOverPanel == null) return;
         int finalScore = PhaseManager.Instance != null ? PhaseManager.Instance.CurrentScore : 0;
-        
+
         if (finalScoreText != null) finalScoreText.text = "SKOR: " + finalScore;
         if (bestScoreText != null) bestScoreText.text = "EN YÜKSEK: " + highScore;
         // Yeni rekor kırıldıysa rozeti/yazıyı aç
@@ -156,13 +156,18 @@ public class UIManager : MonoBehaviour
             SnakeMovement.Instance.RestartGame();
         }
     }
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1f;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
 
     public void OnQuitButtonClicked()
     {
         Application.Quit();
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+#endif
         Debug.Log("[UIManager] Oyundan çıkıldı.");
     }
     private void UpdateScoreDisplay(int score)
