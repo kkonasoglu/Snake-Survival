@@ -80,13 +80,11 @@ public class SnakeMovement : MonoBehaviour
     {
         currentMin = phase2Min;
         currentMax = phase2Max;
-        Debug.Log("<color=green>[SnakeMovement] FAZ 2 SINIRLARI AKTİF! Alan genişledi.</color>");
     }
 
     private void EnableInfiniteMode()
     {
         isInfiniteMode = true;
-        Debug.Log("<color=magenta>[SnakeMovement] SONSUZ MOD AKTİF! Kenarlardan geçiş açıldı.</color>");
     }
 
     private void Awake()
@@ -145,7 +143,6 @@ public class SnakeMovement : MonoBehaviour
         {
             if (nextX < currentMin.x || nextX > currentMax.x || nextY < currentMin.y || nextY > currentMax.y)
             {
-                Debug.Log($"<color=red>[SnakeMovement] Duvara çarpıldı! Hedef: ({nextX}, {nextY}) | Sınırlar: X:[{currentMin.x}, {currentMax.x}] Y:[{currentMin.y}, {currentMax.y}]</color>");
                 Die();
                 return;
             }
@@ -197,7 +194,6 @@ public class SnakeMovement : MonoBehaviour
         if(isDead)return;
         isDead = true;
         StopAllCoroutines();
-        Debug.Log("<color = red>[SnakeMovement] Yılan öldü! Game over</color>");
         OnSnakeDied?.Invoke();
     }
     public void RestartGame()

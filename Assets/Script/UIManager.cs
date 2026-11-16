@@ -90,20 +90,20 @@ public class UIManager : MonoBehaviour
     private void HandlePhase2()
     {
         UpdatePhaseDisplay(2);
-        ShowPhaseBanner("FAZ 2: DUVARLAR YIKILDI!");
+        ShowPhaseBanner("PHASE 2: WALLS DOWN!");
     }
     private void HandlePhase3()
     {
         UpdatePhaseDisplay(3);
-        ShowPhaseBanner("FAZ 3: SONSUZ ALAN & KAOS!");
+        ShowPhaseBanner("PHASE 3: INFINITE CHAOS!");
     }
     private void HandleSnakeDied()
     {
         if (gameOverPanel == null) return;
         int finalScore = PhaseManager.Instance != null ? PhaseManager.Instance.CurrentScore : 0;
 
-        if (finalScoreText != null) finalScoreText.text = "SKOR: " + finalScore;
-        if (bestScoreText != null) bestScoreText.text = "EN YÜKSEK: " + highScore;
+        if (finalScoreText != null) finalScoreText.text = "SCORE: " + finalScore;
+        if (bestScoreText != null) bestScoreText.text = "BEST SCORE: " + highScore;
         // Yeni rekor kırıldıysa rozeti/yazıyı aç
         if (newRecordBadge != null)
         {
@@ -168,19 +168,18 @@ public class UIManager : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
-        Debug.Log("[UIManager] Oyundan çıkıldı.");
     }
     private void UpdateScoreDisplay(int score)
     {
-        if (scoreText != null) scoreText.text = "SKOR: " + score;
+        if (scoreText != null) scoreText.text = "SCORE: " + score;
     }
     private void UpdateHighScoreDisplay()
     {
-        if (highScoreText != null) highScoreText.text = "REKOR: " + highScore;
+        if (highScoreText != null) highScoreText.text = "BEST: " + highScore;
     }
     private void UpdatePhaseDisplay(int phase)
     {
-        if (phaseText != null) phaseText.text = "FAZ " + phase;
+        if (phaseText != null) phaseText.text = "PHASE " + phase;
     }
     public void ShowPhaseBanner(string message)
     {

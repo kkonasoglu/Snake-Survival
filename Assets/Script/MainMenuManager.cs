@@ -24,7 +24,7 @@ public class MainMenuManager : MonoBehaviour
         if(highScoreText != null)
         {
             int bestScore = PlayerPrefs.GetInt("HighScore",0);
-            highScoreText.text = "EN YUKSEK SKOR: "+bestScore;
+            highScoreText.text = "BEST SCORE: " + bestScore;
         }  
     }
 
@@ -49,7 +49,6 @@ public class MainMenuManager : MonoBehaviour
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
-        Debug.Log("[MainMenu]Oyundan Çıkıldı");
     }
 
     

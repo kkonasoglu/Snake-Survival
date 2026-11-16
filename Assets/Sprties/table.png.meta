@@ -119,12 +119,12 @@ TextureImporter:
       name: table_0
       rect:
         serializedVersion: 2
-        x: 31
-        y: 79
-        width: 66
-        height: 34
+        x: 32
+        y: 80
+        width: 64
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -141,12 +141,12 @@ TextureImporter:
       name: table_1
       rect:
         serializedVersion: 2
-        x: 47
-        y: 47
-        width: 34
-        height: 18
+        x: 48
+        y: 48
+        width: 32
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -155,6 +155,28 @@ TextureImporter:
       bones: []
       spriteID: ee740f621d5dbf000800000000000000
       internalID: 70885313432537070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: table_2
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 48
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3ba6f6f574ebdf449533621fbbbf6d2
+      internalID: -557869065
       vertices: []
       indices: 
       edges: []
@@ -171,10 +193,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       table_0: -8841490917199087839
       table_1: 70885313432537070
+      table_2: -557869065
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

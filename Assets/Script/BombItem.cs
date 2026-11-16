@@ -73,7 +73,6 @@ public class BombItem : Item
     private IEnumerator ExplodeAndRespawnRoutine()
     {
         isExplode = true;
-        Debug.Log("<color = orange>[BombItem] bomba süresi doldu,patladı ve yok oldu! </color>");
         AudioManager.Instance?.PlayBomb();
         CameraExpender.Instance?.TriggerShake(0.3f, 0.3f);
 
@@ -107,7 +106,6 @@ public class BombItem : Item
     public override void Collect(SnakeMovement snake)
     {
         if(isExplode) return;
-        Debug.Log("<color = red><b>[BombItem] BOOM! yılan bombaya çarptı ve öldü!</b></color>");
         ParticleManager.Instance?.PlayEatEffect(transform.position,Color.gray);
 
         AudioManager.Instance?.PlayBomb();

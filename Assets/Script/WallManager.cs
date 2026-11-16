@@ -36,7 +36,6 @@ public class WallManager : MonoBehaviour
         if(innerWall != null)
         {
             innerWall.SetActive(false);
-            Debug.Log("[WallManager] ilk duvar yıkıldı alan genişledi");
         }
     }
 
@@ -45,7 +44,6 @@ public class WallManager : MonoBehaviour
         if(outWall != null)
         {
             outWall.SetActive(false);
-            Debug.Log("<color = orange>[WallManager] SON DUVAR YIKILDI! sonsuz alan açıldı</color>");
         }
     }
 
@@ -62,6 +60,5 @@ public class WallManager : MonoBehaviour
             outWall.SetActive(true);
             
         }
-        Debug.Log("[WallManager] duvarlar geri yüklendi");
     }
 }

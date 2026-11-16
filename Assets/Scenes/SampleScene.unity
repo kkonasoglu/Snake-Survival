@@ -15594,7 +15594,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EN YUKSEK: 0 '
+  m_text: 'BEST SCORE: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15723,7 +15723,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "OYUN B\u0130TT\u0130"
+  m_text: GAME OVER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -16248,7 +16248,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DURAKLATILDI
+  m_text: PAUSED
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: -8980266846530943451, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
@@ -16490,7 +16490,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BASTAN
+  m_text: RESTART
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: -8980266846530943451, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
@@ -16627,7 +16627,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DEVAM
+  m_text: RESUME
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: -8980266846530943451, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
@@ -16843,7 +16843,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CIKIS
+  m_text: QUIT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: -8980266846530943451, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
@@ -17645,7 +17645,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'REKOR: 0'
+  m_text: 'BEST: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: -8980266846530943451, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
@@ -18123,7 +18123,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'SKOR : 0'
+  m_text: 'SCORE: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: -8980266846530943451, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
@@ -18336,7 +18336,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: FAZ 1
+  m_text: PHASE 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: -8980266846530943451, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
@@ -18473,7 +18473,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'FAZ 2: DUVARLAR YIKILDI'
+  m_text: 'PHASE 2: WALLS DOWN'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -20170,7 +20170,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: " YEN\u0130 REKOR! "
+  m_text: ' NEW RECORD! '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -20494,7 +20494,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "[SPACE] Tu\u015Funa Basarak Yeniden Ba\u015Fla"
+  m_text: 'PRESS [SPACE] TO RESTART'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -21688,7 +21688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'SKOR: 0'
+  m_text: 'SCORE: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95e7844aed909554a9e8d029c9e07808, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

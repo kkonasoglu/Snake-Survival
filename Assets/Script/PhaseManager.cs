@@ -103,7 +103,6 @@ public class PhaseManager : MonoBehaviour
         int points = item != null ? item.ScoreValue : 1;
         currentScore += points;
         OnScoreChanged?.Invoke(currentScore);
-        Debug.Log($"<color = cyan>[PhaseManager] + [points] Puan! Toplam Skor = {currentScore}</color>");
 
         if(currentPhase == 1&& currentScore >= phase1Target)
         {
@@ -119,7 +118,6 @@ public class PhaseManager : MonoBehaviour
     private void StartPhase2()
     {
         currentPhase = 2;
-        Debug.Log("<color=green><b>[PhaseManager] TEBRİKLER! FAZ 2 BAŞLADI! Duvarlar yıkılıyor...</b></color>");
         OnPhase2Started?.Invoke();
 
         if (bananaObject != null)
@@ -135,7 +133,6 @@ public class PhaseManager : MonoBehaviour
     private void StartPhase3()
     {
         currentPhase = 3;
-        Debug.Log("<color=yellow><b>[PhaseManager] TEBRİKLER! FAZ 3 BAŞLADI (50 Puan)! Sonsuz Mod devrede...</b></color>");
         OnPhase3Started?.Invoke();
         if(bombObject != null)
         {
@@ -160,7 +157,6 @@ public class PhaseManager : MonoBehaviour
         currentScore = 0;
         currentPhase = 1;
         OnScoreChanged?.Invoke(0);
-        Debug.Log("[PhaseManager] Yılan öldü, faz ilerlemesi sıfırlandı.");
 
         if (bananaObject != null)
         {
