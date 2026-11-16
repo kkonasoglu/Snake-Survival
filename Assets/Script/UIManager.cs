@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = -1;
         highScore = PlayerPrefs.GetInt("HighScore", 0);
     }
     private void Start()

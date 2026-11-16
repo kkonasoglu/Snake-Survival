@@ -13,6 +13,13 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Oyun Sahnesinin Adı")]
     [SerializeField]private string gameSceneName = "SampleScene";
+
+    private void Awake()
+    {
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = -1;
+    }
+
     void Start()
     {
         Time.timeScale=1f;
