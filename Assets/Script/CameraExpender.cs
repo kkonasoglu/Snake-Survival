@@ -39,6 +39,14 @@ public class CameraExpender : MonoBehaviour
         basePosition = transform.position;
     }
 
+    private void Start()
+    {
+        if (mainCam != null)
+        {
+            mainCam.orthographicSize = initialOrthoSize;
+        }
+    }
+
     private void OnEnable()
     {
         PhaseManager.OnPhase2Started += ExpandView;

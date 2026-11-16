@@ -30,6 +30,11 @@ public class UIManager : MonoBehaviour
     private Coroutine bannerCoroutine;
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
         Instance = this;
         QualitySettings.vSyncCount = 1;
         Application.targetFrameRate = -1;
