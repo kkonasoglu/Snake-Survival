@@ -85555,8 +85555,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a7796ba8aa0dd4daa57561b93a0a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhaseManager
-  phase1Target: 10
-  phase3Target: 40
+  phase1Target: 25
+  phase3Target: 75
   bananaObject: {fileID: 134894946}
   bombObject: {fileID: 1654117665}
   devilFruitObject: {fileID: 1373814146}
