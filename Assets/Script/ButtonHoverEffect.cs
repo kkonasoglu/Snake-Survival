@@ -9,6 +9,19 @@ public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] private float clickScale = 0.95f;    // Tıklayınca hafif içeri göçsün (%5)
     [SerializeField] private float animationSpeed = 12f;  // Geçiş hızı (akıcılık)
 
+    [Header("Hover (Üzerine Gelme) Sesi")]
+    [SerializeField] private AudioClip hoverSound;
+    [Range(0f, 1f)][SerializeField] private float hoverVolume = 0.6f;
+
+    [Header("Click (Tıklama) Sesleri")]
+    [SerializeField] private AudioClip[] clickSounds;
+    [Range(0f, 1f)][SerializeField] private float clickVolume = 0.8f;
+
+    private static AudioSource sharedAudioSource;
+    private static AudioClip fallbackHoverSound;
+    private static AudioClip[] fallbackClickSounds;
+    private static int lastClickIndex = -1;
+
     private Vector3 originalScale;
     private Vector3 targetScale;
     private Coroutine scaleCoroutine;
@@ -17,6 +30,16 @@ public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         originalScale = transform.localScale;
         targetScale = originalScale;
+
+        if (hoverSound != null && fallbackHoverSound == null)
+        {
+            fallbackHoverSound = hoverSound;
+        }
+
+        if (clickSounds != null && clickSounds.Length > 0 && fallbackClickSounds == null)
+        {
+            fallbackClickSounds = clickSounds;
+        }
     }
 
     private void OnDisable()
@@ -30,6 +53,16 @@ public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerEnter(PointerEventData eventData)
     {
         StartScaleAnimation(originalScale * hoverScale);
+        PlayHoverSound();
+    }
+
+    private void PlayHoverSound()
+    {
+        AudioClip clipToPlay = hoverSound != null ? hoverSound : fallbackHoverSound;
+        if (clipToPlay != null)
+        {
+            PlaySound(clipToPlay, hoverVolume);
+        }
     }
 
     // Fare butondan ayrıldığında
@@ -42,6 +75,39 @@ public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerDown(PointerEventData eventData)
     {
         StartScaleAnimation(originalScale * clickScale);
+        PlayRandomClickSound();
+    }
+
+    private void PlayRandomClickSound()
+    {
+        AudioClip[] clips = (clickSounds != null && clickSounds.Length > 0) ? clickSounds : fallbackClickSounds;
+        if (clips == null || clips.Length == 0) return;
+
+        int randomIndex = Random.Range(0, clips.Length);
+        if (clips.Length > 1 && randomIndex == lastClickIndex)
+        {
+            randomIndex = (randomIndex + 1) % clips.Length;
+        }
+        lastClickIndex = randomIndex;
+
+        AudioClip clipToPlay = clips[randomIndex];
+        if (clipToPlay != null)
+        {
+            PlaySound(clipToPlay, clickVolume);
+        }
+    }
+
+    private static void PlaySound(AudioClip clip, float volume)
+    {
+        if (clip == null) return;
+        if (sharedAudioSource == null)
+        {
+            GameObject go = new GameObject("ButtonAudioSource");
+            sharedAudioSource = go.AddComponent<AudioSource>();
+            sharedAudioSource.playOnAwake = false;
+            DontDestroyOnLoad(go);
+        }
+        sharedAudioSource.PlayOneShot(clip, volume);
     }
 
     // Tıklama bırakıldığında

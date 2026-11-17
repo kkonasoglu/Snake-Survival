@@ -2277,6 +2277,13 @@ MonoBehaviour:
   hoverScale: 1.15
   clickScale: 0.95
   animationSpeed: 12
+  hoverSound: {fileID: 8300000, guid: c7ddecb9f9d5e3349b93c00e2bfe32ac, type: 3}
+  hoverVolume: 0.6
+  clickSounds:
+  - {fileID: 8300000, guid: 3a4a1fe5fbee7284d89f364f0f130086, type: 3}
+  - {fileID: 8300000, guid: 2aa287740aef185499b81da4804b3ebf, type: 3}
+  - {fileID: 8300000, guid: b25b72bdca9802447b527d86014768a9, type: 3}
+  clickVolume: 0.8
 --- !u!114 &243442197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2853,6 +2860,13 @@ MonoBehaviour:
   hoverScale: 1.15
   clickScale: 0.95
   animationSpeed: 12
+  hoverSound: {fileID: 8300000, guid: c7ddecb9f9d5e3349b93c00e2bfe32ac, type: 3}
+  hoverVolume: 0.6
+  clickSounds:
+  - {fileID: 8300000, guid: 3a4a1fe5fbee7284d89f364f0f130086, type: 3}
+  - {fileID: 8300000, guid: 2aa287740aef185499b81da4804b3ebf, type: 3}
+  - {fileID: 8300000, guid: b25b72bdca9802447b527d86014768a9, type: 3}
+  clickVolume: 0.8
 --- !u!1 &851113965
 GameObject:
   m_ObjectHideFlags: 0
@@ -3076,6 +3090,13 @@ MonoBehaviour:
   hoverScale: 1.15
   clickScale: 0.95
   animationSpeed: 12
+  hoverSound: {fileID: 8300000, guid: c7ddecb9f9d5e3349b93c00e2bfe32ac, type: 3}
+  hoverVolume: 0.6
+  clickSounds:
+  - {fileID: 8300000, guid: 3a4a1fe5fbee7284d89f364f0f130086, type: 3}
+  - {fileID: 8300000, guid: 2aa287740aef185499b81da4804b3ebf, type: 3}
+  - {fileID: 8300000, guid: b25b72bdca9802447b527d86014768a9, type: 3}
+  clickVolume: 0.8
 --- !u!1 &955803500
 GameObject:
   m_ObjectHideFlags: 0
@@ -4036,6 +4057,13 @@ MonoBehaviour:
   hoverScale: 1.15
   clickScale: 0.95
   animationSpeed: 12
+  hoverSound: {fileID: 8300000, guid: c7ddecb9f9d5e3349b93c00e2bfe32ac, type: 3}
+  hoverVolume: 0.6
+  clickSounds:
+  - {fileID: 8300000, guid: 3a4a1fe5fbee7284d89f364f0f130086, type: 3}
+  - {fileID: 8300000, guid: 2aa287740aef185499b81da4804b3ebf, type: 3}
+  - {fileID: 8300000, guid: b25b72bdca9802447b527d86014768a9, type: 3}
+  clickVolume: 0.8
 --- !u!1 &1779104107
 GameObject:
   m_ObjectHideFlags: 0
