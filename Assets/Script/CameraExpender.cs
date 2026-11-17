@@ -36,6 +36,11 @@ public class CameraExpender : MonoBehaviour
             mainCam = Camera.main;
         }
 
+        if (mainCam != null)
+        {
+            mainCam.rect = new Rect(0f, 0f, 1f, 1f);
+        }
+
         basePosition = transform.position;
     }
 
@@ -43,6 +48,7 @@ public class CameraExpender : MonoBehaviour
     {
         if (mainCam != null)
         {
+            mainCam.rect = new Rect(0f, 0f, 1f, 1f);
             mainCam.orthographicSize = initialOrthoSize;
         }
     }
@@ -75,6 +81,7 @@ public class CameraExpender : MonoBehaviour
         if (zoomCoroutine != null) StopCoroutine(zoomCoroutine);
         if (mainCam != null)
         {
+            mainCam.rect = new Rect(0f, 0f, 1f, 1f);
             mainCam.orthographicSize = initialOrthoSize;
         }  
     }
