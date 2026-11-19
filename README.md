@@ -18,14 +18,14 @@
 ## 🌟 Key Features
 
 ### 🔄 3-Phase Dynamic Progression
-* **Phase 1: The Pit (Score 0 – 25)**
+* **Phase 1: The Pit (Score 0 – 20)**
   * Claustrophobic starting grid bounded by indestructible inner walls.
   * Collect classic **Apples (+1 pt)** to grow and survive.
-* **Phase 2: Walls Down (Score 25 – 75)**
+* **Phase 2: Walls Down (Score 20 – 60)**
   * Inner walls blow up with a screen-shaking explosion.
   * The orthographic camera smoothly zooms out (`7.5` → `12.0`) to reveal the expanded perimeter.
   * **Bananas (+4 pts)** spawn, providing a rapid score boost and speed pacing.
-* **Phase 3: Chaos Unleashed (Score 75+)**
+* **Phase 3: Chaos Unleashed (Score 60+)**
   * Outer boundaries drop, unlocking the full map.
   * **Bombs** appear with ticking fuses, pulsing warning animations, and lethal explosions.
   * **Devil Fruits (+8 pts)** spawn, temporarily inverting controls for high-risk / high-reward plays.
