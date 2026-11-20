@@ -146,6 +146,7 @@ public class UIManager : MonoBehaviour
         isGamePaused = true;
         Time.timeScale = 0f;
         if (pausePanel != null) pausePanel.SetActive(true);
+        AudioManager.Instance?.SetMusicMuffled(true);
     }
 
     public void ResumeGame()
@@ -153,6 +154,7 @@ public class UIManager : MonoBehaviour
         isGamePaused = false;
         Time.timeScale = 1f;
         if (pausePanel != null) pausePanel.SetActive(false);
+        AudioManager.Instance?.SetMusicMuffled(false);
     }
 
     public void OnRestartFromPause()
@@ -166,6 +168,7 @@ public class UIManager : MonoBehaviour
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
+        AudioManager.Instance?.SetMusicMuffled(false);
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 

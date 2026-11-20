@@ -21,6 +21,11 @@ public class SnakeMovement : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private Transform bodyPrefab;
 
+    [Header("Start Delay (Başlangıç Beklemesi)")]
+    [SerializeField] private float startDelay = 1.0f;
+    private bool isWaitingToStart = false;
+    public bool IsWaitingToStart => isWaitingToStart;
+
     [Header("Boundary Limits (Wall Collision)")]
     [SerializeField] private Vector2Int phase1Min = new Vector2Int(-9, -5);
     [SerializeField] private Vector2Int phase1Max = new Vector2Int(11, 6);
@@ -108,9 +113,7 @@ public class SnakeMovement : MonoBehaviour
 
     public void Update()
     {
-        if(isPaused || isDead) return;
-
-        if(isPaused) return;
+        if (isPaused || isDead || isWaitingToStart) return;
 
         stepTimer += Time.deltaTime;
         if (stepTimer >= currentStepTime)
@@ -236,7 +239,15 @@ public class SnakeMovement : MonoBehaviour
             segment.position = new Vector3(-i, 0, 0);
             segments.Add(segment);
         }
+        StartCoroutine(StartDelayRoutine());
         OnSnakeReset?.Invoke();
+    }
+
+    private IEnumerator StartDelayRoutine()
+    {
+        isWaitingToStart = true;
+        yield return new WaitForSeconds(startDelay);
+        isWaitingToStart = false;
     }
 
     public bool IsInsideBounds(int x, int y)

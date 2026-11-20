@@ -20,6 +20,14 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip deathClip;
     [Range(0f, 1f)][SerializeField] private float sfxVolume = 1.0f;
 
+    [Header("Muffle (Boğuklaştırma - Pause)")]
+    [SerializeField] private float normalCutoff = 22000f;
+    [SerializeField] private float muffledCutoff = 750f;
+    [SerializeField] private float muffleDuration = 0.2f;
+
+    private AudioLowPassFilter musicLowPassFilter;
+    private Coroutine muffleCoroutine;
+
     private void Awake()
     {
         if (Instance == null)
@@ -32,13 +40,31 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        if (musicSource == null) musicSource = gameObject.AddComponent<AudioSource>();
-        if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();
+        if (musicSource == null)
+        {
+            GameObject musicObj = new GameObject("MusicSource");
+            musicObj.transform.SetParent(transform);
+            musicSource = musicObj.AddComponent<AudioSource>();
+        }
+        if (sfxSource == null)
+        {
+            GameObject sfxObj = new GameObject("SFXSource");
+            sfxObj.transform.SetParent(transform);
+            sfxSource = sfxObj.AddComponent<AudioSource>();
+        }
 
         musicSource.loop = true;
         musicSource.playOnAwake = false;
         sfxSource.loop = false;
         sfxSource.playOnAwake = false;
+
+        musicLowPassFilter = musicSource.GetComponent<AudioLowPassFilter>();
+        if (musicLowPassFilter == null)
+        {
+            musicLowPassFilter = musicSource.gameObject.AddComponent<AudioLowPassFilter>();
+        }
+        musicLowPassFilter.cutoffFrequency = normalCutoff;
+        musicLowPassFilter.lowpassResonanceQ = 1f;
     }
 
     private void Start()
@@ -73,6 +99,29 @@ public class AudioManager : MonoBehaviour
         if (musicSource != null) musicSource.Stop();
     }
 
+    public void SetMusicMuffled(bool muffled)
+    {
+        if (musicLowPassFilter == null) return;
+        if (muffleCoroutine != null) StopCoroutine(muffleCoroutine);
+        muffleCoroutine = StartCoroutine(TransitionMuffle(muffled ? muffledCutoff : normalCutoff));
+    }
+
+    private System.Collections.IEnumerator TransitionMuffle(float targetCutoff)
+    {
+        float startCutoff = musicLowPassFilter.cutoffFrequency;
+        float elapsed = 0f;
+
+        while (elapsed < muffleDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            musicLowPassFilter.cutoffFrequency = Mathf.Lerp(startCutoff, targetCutoff, elapsed / muffleDuration);
+            yield return null;
+        }
+
+        musicLowPassFilter.cutoffFrequency = targetCutoff;
+        muffleCoroutine = null;
+    }
+
     public void PlayAppleEat() => PlaySFX(appleEatClip);
     public void PlayBanana() => PlaySFX(bananaClip);
     public void PlayDevilFruit() => PlaySFX(devilFruitClip);
@@ -95,6 +144,7 @@ public class AudioManager : MonoBehaviour
 
     private void HandleSnakeReset()
     {
+        SetMusicMuffled(false);
         PlayBGM();
     }
 }
