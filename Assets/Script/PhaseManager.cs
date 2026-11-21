@@ -12,7 +12,7 @@ public class PhaseManager : MonoBehaviour
 
     [Header("Phase goal (Score)")]
     [SerializeField] private int phase1Target = 20;
-    [SerializeField] private int phase3Target = 60;
+    [SerializeField] private int phase3Target = 70;
 
     [Header("Phase 2 Items")]
     [SerializeField] private GameObject bananaObject;
