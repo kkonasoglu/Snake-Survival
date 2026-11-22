@@ -8,9 +8,9 @@ public class BombItem : Item
     [SerializeField] private float respawnDelay = 1.5f;
 
     [Header("Visual Effect (Pulse & Flash)")]
-    [SerializeField] private float pulseSpeed = 6f;
-    [SerializeField] private float pulseAmount = 0.25f;
-    [SerializeField] private float flashSpeed = 8f;
+    [SerializeField] private float pulseSpeed = 3f;
+    [SerializeField] private float pulseAmount = 0.12f;
+    [SerializeField] private float flashSpeed = 4f;
     [SerializeField] private Color flashColor = Color.red;
 
     private SpriteRenderer spriteRenderer;
@@ -18,6 +18,8 @@ public class BombItem : Item
     private Vector3 initialScale;
     private Color initialColor;
     private float currentTimer = 0f;
+    private float pulsePhase = 0f;
+    private float flashPhase = 0f;
     private bool isExplode = false;
 
     protected override void Awake()
@@ -52,18 +54,20 @@ public class BombItem : Item
         if (isExplode) return;
         currentTimer += Time.deltaTime;
         float progress = Mathf.Clamp01(currentTimer / fuseTime);
-        float speedMutliplier = 1f + (progress * 1.5f);
+        float speedMultiplier = 1f + (progress * 1.5f);
 
-        float scaleOffset = Mathf.Sin(Time.time * pulseSpeed * speedMutliplier) * pulseAmount;
+        pulsePhase += Time.deltaTime * pulseSpeed * speedMultiplier;
+        float scaleOffset = Mathf.Sin(pulsePhase) * pulseAmount;
         transform.localScale = initialScale * (1f + scaleOffset);
 
-        if(spriteRenderer != null)
+        if (spriteRenderer != null)
         {
-            float flash = Mathf.PingPong(Time.time * flashSpeed * speedMutliplier , 1f );
-            spriteRenderer.color = Color.Lerp(initialColor , flashColor , flash);
+            flashPhase += Time.deltaTime * flashSpeed * speedMultiplier;
+            float flash = Mathf.PingPong(flashPhase, 1f);
+            spriteRenderer.color = Color.Lerp(initialColor, flashColor, flash);
         }
 
-        if(currentTimer >= fuseTime)
+        if (currentTimer >= fuseTime)
         {
              StartCoroutine(ExplodeAndRespawnRoutine());
         }
@@ -88,6 +92,8 @@ public class BombItem : Item
         StopAllCoroutines();
         isExplode = false;
         currentTimer = 0f;
+        pulsePhase = 0f;
+        flashPhase = 0f;
         transform.localScale = initialScale;
 
         if(spriteRenderer != null)
